@@ -163,7 +163,7 @@ class BubbleChatImages extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.fromLTRB(
                             6,
-                            6,
+                            text.isNotEmpty ? 0 : 6,
                             stateTick ? 2 : 6,
                             6,
                           ),
