@@ -136,14 +136,17 @@ class BubbleChatPdf extends StatelessWidget {
                 alignment: WrapAlignment.spaceBetween,
                 crossAxisAlignment: WrapCrossAlignment.end,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 6,
-                      horizontal: 12,
-                    ),
-                    child: Text(
-                      text,
-                      style: textStyle,
+                  Visibility(
+                    visible: text.isNotEmpty,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 6,
+                        horizontal: 12,
+                      ),
+                      child: Text(
+                        text,
+                        style: textStyle,
+                      ),
                     ),
                   ),
                   Row(
