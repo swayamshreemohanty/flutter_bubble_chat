@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BubbleChatPdfs extends StatelessWidget {
+class BubbleChatPdf extends StatelessWidget {
   final double bubbleRadius;
   final bool isSender;
   final Color color;
@@ -14,7 +14,7 @@ class BubbleChatPdfs extends StatelessWidget {
   final TextStyle textStyle;
   final TextStyle timeStampStyle;
   final void Function()? onDownloadClicked;
-  const BubbleChatPdfs({
+  const BubbleChatPdf({
     Key? key,
     required this.text,
     required this.pdfName,

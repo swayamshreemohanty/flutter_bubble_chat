@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 
-class BubbleChatImages extends StatelessWidget {
+class BubbleChatImage extends StatelessWidget {
   final double bubbleRadius;
   final bool isSender;
   final Color color;
@@ -17,7 +17,7 @@ class BubbleChatImages extends StatelessWidget {
   final TextStyle textStyle;
   final TextStyle timeStampStyle;
 
-  const BubbleChatImages({
+  const BubbleChatImage({
     Key? key,
     required this.text,
     required this.imageUrl,
