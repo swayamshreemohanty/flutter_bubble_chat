@@ -6,6 +6,7 @@ class BubbleChatImage extends StatelessWidget {
   final double bubbleRadius;
   final bool isSender;
   final Color color;
+  final Color imageLoadCircleColor;
   final String text;
   final String imageUrl;
   final String? timeStampText;
@@ -24,6 +25,7 @@ class BubbleChatImage extends StatelessWidget {
     this.bubbleRadius = 16,
     this.isSender = true,
     this.color = Colors.white70,
+    this.imageLoadCircleColor = Colors.white,
     this.tail = true,
     this.sent = false,
     this.delivered = false,
@@ -124,9 +126,12 @@ class BubbleChatImage extends StatelessWidget {
                               height: 180,
                               fit: BoxFit.cover,
                               progressIndicatorBuilder:
-                                  (context, url, downloadProgress) =>
-                                      CircularProgressIndicator(
-                                          value: downloadProgress.progress),
+                                  (context, url, downloadProgress) => Center(
+                                child: CircularProgressIndicator(
+                                  value: downloadProgress.progress,
+                                  color: imageLoadCircleColor,
+                                ),
+                              ),
                               errorWidget: (context, url, error) =>
                                   const Icon(Icons.error),
                             ),
