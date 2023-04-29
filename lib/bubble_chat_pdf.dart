@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class BubbleChatPdf extends StatelessWidget {
+class BubbleChatPdfs extends StatelessWidget {
   final double bubbleRadius;
   final bool isSender;
   final Color color;
@@ -14,7 +14,7 @@ class BubbleChatPdf extends StatelessWidget {
   final TextStyle textStyle;
   final TextStyle timeStampStyle;
   final void Function()? onDownloadClicked;
-  const BubbleChatPdf({
+  const BubbleChatPdfs({
     Key? key,
     required this.text,
     required this.pdfName,
@@ -139,12 +139,9 @@ class BubbleChatPdf extends StatelessWidget {
                   Visibility(
                     visible: text.isNotEmpty,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 6,
-                        horizontal: 12,
-                      ),
+                      padding: const EdgeInsets.fromLTRB(12, 5, 12, 0),
                       child: Text(
-                        text,
+                        "sdgifsiodfgiosdgiofgsdiogfiosdgiofiogsdoifgosdgfiosd",
                         style: textStyle,
                       ),
                     ),
@@ -154,7 +151,12 @@ class BubbleChatPdf extends StatelessWidget {
                     children: [
                       if (timeStampText != null)
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(6, 0, 6, 6),
+                          padding: EdgeInsets.fromLTRB(
+                            6,
+                            6,
+                            stateTick ? 2 : 6,
+                            6,
+                          ),
                           child: Text(
                             timeStampText!,
                             style: timeStampStyle,
@@ -162,7 +164,7 @@ class BubbleChatPdf extends StatelessWidget {
                         ),
                       if (stateIcon != null && stateTick)
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(1, 0, 6, 6),
+                          padding: const EdgeInsets.fromLTRB(2, 6, 6, 6),
                           child: stateIcon,
                         ),
                     ],
