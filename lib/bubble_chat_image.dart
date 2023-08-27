@@ -14,6 +14,11 @@ class BubbleChatImage extends StatelessWidget {
   final bool sent;
   final bool delivered;
   final bool seen;
+  final bool isVideoType;
+  final String? videoUrl;
+
+  ///A callback on the chat widget tap when the chat is video type
+  final Function()? onPlayButtonTap;
   final TextStyle textStyle;
   final TextStyle timeStampStyle;
 
@@ -21,6 +26,7 @@ class BubbleChatImage extends StatelessWidget {
     Key? key,
     required this.text,
     required this.imageUrl,
+    this.videoUrl,
     this.timeStampText,
     this.bubbleRadius = 16,
     this.isSender = true,
@@ -30,6 +36,7 @@ class BubbleChatImage extends StatelessWidget {
     this.sent = false,
     this.delivered = false,
     this.seen = false,
+    this.isVideoType = false,
     this.textStyle = const TextStyle(
       color: Colors.black87,
       fontSize: 16,
@@ -38,6 +45,7 @@ class BubbleChatImage extends StatelessWidget {
       color: Color.fromRGBO(164, 169, 172, 1),
       fontSize: 12,
     ),
+    this.onPlayButtonTap,
   }) : super(key: key);
 
   ///chat bubble builder method
@@ -83,16 +91,20 @@ class BubbleChatImage extends StatelessWidget {
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(bubbleRadius),
               topRight: Radius.circular(bubbleRadius),
-              bottomLeft: Radius.circular(tail
-                  ? isSender
-                      ? bubbleRadius
-                      : 0
-                  : 16),
-              bottomRight: Radius.circular(tail
-                  ? isSender
-                      ? 0
-                      : bubbleRadius
-                  : 16),
+              bottomLeft: Radius.circular(
+                tail
+                    ? isSender
+                        ? bubbleRadius
+                        : 0
+                    : 16,
+              ),
+              bottomRight: Radius.circular(
+                tail
+                    ? isSender
+                        ? 0
+                        : bubbleRadius
+                    : 16,
+              ),
             ),
           ),
           child: Column(
@@ -104,41 +116,70 @@ class BubbleChatImage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(bubbleRadius),
                   ),
                   padding: const EdgeInsets.all(8),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return PhotoView(
-                                  imageProvider:
-                                      CachedNetworkImageProvider(imageUrl),
-                                );
-                              },
+                  child: GestureDetector(
+                    onTap: () {
+                      if (isVideoType) {
+                        if (videoUrl == null) {
+                          throw ("Video url not found");
+                        } else if (onPlayButtonTap != null) {
+                          onPlayButtonTap!.call();
+                        }
+                        return;
+                      } else {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return PhotoView(
+                              imageProvider:
+                                  CachedNetworkImageProvider(imageUrl),
                             );
                           },
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(bubbleRadius),
-                            child: CachedNetworkImage(
-                              imageUrl: imageUrl,
-                              height: 180,
-                              fit: BoxFit.cover,
-                              progressIndicatorBuilder:
-                                  (context, url, downloadProgress) => Center(
-                                child: CircularProgressIndicator(
-                                  value: downloadProgress.progress,
-                                  color: imageLoadCircleColor,
+                        );
+                        return;
+                      }
+                    },
+                    child: Stack(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(bubbleRadius),
+                          child: CachedNetworkImage(
+                            imageUrl: imageUrl,
+                            height: 180,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) => Center(
+                              child: CircularProgressIndicator(
+                                value: downloadProgress.progress,
+                                color: imageLoadCircleColor,
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                const Icon(Icons.error),
+                          ),
+                        ),
+                        Visibility(
+                          visible: isVideoType,
+                          child: const Positioned(
+                            left: 0,
+                            right: 0,
+                            top: 0,
+                            bottom: 0,
+                            child: Center(
+                              child: CircleAvatar(
+                                backgroundColor: Colors.black45,
+                                radius: 25,
+                                child: Icon(
+                                  Icons.play_arrow,
+                                  color: Colors.white,
+                                  size: 30,
                                 ),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
